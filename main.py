@@ -3,7 +3,6 @@ Project 1 Requirements Test Pipeline
 Tests 3 clustering techniques × 3 datasets × 3 quality measures = 27 runs
 """
 
-import numpy as np
 import pandas as pd
 from sklearn.datasets import load_iris, load_wine, make_blobs
 import datamining_framework as dmf

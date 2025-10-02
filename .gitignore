@@ -1,0 +1,16 @@
+# ignore venv
+venv/
+
+# ignore pycache
+__pycache__/
+
+# ignore results files
+project1_results.csv
+
+# ignore IDE files
+.vscode/
+.idea/
+
+# ignore OS files
+.DS_Store
+Thumbs.db

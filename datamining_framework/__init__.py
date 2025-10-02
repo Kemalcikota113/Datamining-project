@@ -1,12 +1,7 @@
-"""
-Data Mining Framework - Main API
-Simplified framework focused on Project 1 requirements with extensible design.
-"""
-
 from .core import Dataset, ClusteringResult
 from .distance_measures import EuclideanDistance, ManhattanDistance, CosineDistance
 from .clustering_techniques import KMeansClustering, DBSCANClustering, HierarchicalClustering
-from .quality_measures import SilhouetteScore, CalinskiHarabaszScore, DaviesBouldinScore, InertiaScore
+from .quality_measures import SilhouetteScore, CalinskiHarabaszScore, DaviesBouldinScore
 
 # Version info
 __version__ = "2.0.0"
@@ -32,7 +27,6 @@ __all__ = [
     'SilhouetteScore',
     'CalinskiHarabaszScore',
     'DaviesBouldinScore',
-    'InertiaScore',
     
     # Convenience functions
     'load_dataset',
@@ -43,24 +37,9 @@ __all__ = [
 
 # Convenience functions for easy access
 def load_dataset(data):
-    """
-    Load dataset from various sources.
-    
-    Args:
-        data: pandas DataFrame, numpy array, or file path
-        
-    Returns:
-        Dataset object
-    """
     return Dataset(data)
 
 def get_all_distance_measures():
-    """
-    Get all available distance measures.
-    
-    Returns:
-        dict: Dictionary of distance measure name -> class
-    """
     return {
         'euclidean': EuclideanDistance,
         'manhattan': ManhattanDistance,
@@ -68,12 +47,6 @@ def get_all_distance_measures():
     }
 
 def get_all_clustering_techniques():
-    """
-    Get all available clustering techniques.
-    
-    Returns:
-        dict: Dictionary of clustering technique name -> class
-    """
     return {
         'kmeans': KMeansClustering,
         'dbscan': DBSCANClustering,
@@ -81,15 +54,8 @@ def get_all_clustering_techniques():
     }
 
 def get_all_quality_measures():
-    """
-    Get all available quality measures.
-    
-    Returns:
-        dict: Dictionary of quality measure name -> class
-    """
     return {
         'silhouette': SilhouetteScore,
         'calinski_harabasz': CalinskiHarabaszScore,
-        'davies_bouldin': DaviesBouldinScore,
-        'inertia': InertiaScore
+        'davies_bouldin': DaviesBouldinScore
     }

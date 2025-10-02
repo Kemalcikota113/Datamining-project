@@ -1,8 +1,3 @@
-"""
-Clustering Techniques Implementation
-Three different clustering technique implementations as required.
-"""
-
 import numpy as np
 from sklearn.cluster import KMeans, DBSCAN, AgglomerativeClustering
 from sklearn.metrics import pairwise_distances
@@ -16,21 +11,7 @@ class KMeansClustering(ClusteringTechnique):
     """
     
     def cluster(self, dataset, distance_measure=None, **hyperparams):
-        """
-        Perform K-Means clustering.
-        
-        Args:
-            dataset: Dataset object
-            distance_measure: DistanceMeasure object (not used in sklearn KMeans)
-            **hyperparams: K-Means hyperparameters
-                - n_clusters: Number of clusters (default: 3)
-                - random_state: Random state (default: 42)
-                - max_iter: Maximum iterations (default: 300)
-                - init: Initialization method (default: 'k-means++')
-        
-        Returns:
-            ClusteringResult object
-        """
+
         # Extract hyperparameters with defaults
         n_clusters = hyperparams.get('n_clusters', 3)
         random_state = hyperparams.get('random_state', 42)
@@ -70,20 +51,7 @@ class DBSCANClustering(ClusteringTechnique):
     """
     
     def cluster(self, dataset, distance_measure=None, **hyperparams):
-        """
-        Perform DBSCAN clustering.
-        
-        Args:
-            dataset: Dataset object
-            distance_measure: DistanceMeasure object (used for custom distance)
-            **hyperparams: DBSCAN hyperparameters
-                - eps: Maximum distance between two samples (default: 0.5)
-                - min_samples: Minimum samples in neighborhood (default: 5)
-                - metric: Distance metric (default: 'euclidean')
-        
-        Returns:
-            ClusteringResult object
-        """
+
         # Extract hyperparameters with defaults
         eps = hyperparams.get('eps', 0.5)
         min_samples = hyperparams.get('min_samples', 5)
@@ -142,20 +110,7 @@ class HierarchicalClustering(ClusteringTechnique):
     """
     
     def cluster(self, dataset, distance_measure=None, **hyperparams):
-        """
-        Perform Hierarchical clustering.
-        
-        Args:
-            dataset: Dataset object
-            distance_measure: DistanceMeasure object (used for custom distance)
-            **hyperparams: Hierarchical clustering hyperparameters
-                - n_clusters: Number of clusters (default: 3)
-                - linkage: Linkage criterion (default: 'ward')
-                - affinity: Distance metric (default: 'euclidean')
-        
-        Returns:
-            ClusteringResult object
-        """
+
         # Extract hyperparameters with defaults
         n_clusters = hyperparams.get('n_clusters', 3)
         linkage = hyperparams.get('linkage', 'ward')

@@ -10,7 +10,7 @@
 
 ## How to run (For Linux and Mac)
 
-1. go to root directory
+1. go to root directory here
 ```
 cd path/datamining-project
 ```

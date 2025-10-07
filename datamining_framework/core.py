@@ -166,3 +166,80 @@ class ClusteringResult:
         return clusters
 
 
+# Project 2: Dimensionality Reduction Components
+
+class DimensionalityReductionTechnique(ABC):
+    """
+    Abstract base class for dimensionality reduction techniques.
+    Project 2 Requirement 1: DR component that accepts dataset and hyperparameters.
+    """
+    
+    @abstractmethod
+    def reduce(self, dataset, distance_measure=None, **hyperparams):
+        """
+        Perform dimensionality reduction on dataset.
+        
+        Args:
+            dataset: Dataset object
+            distance_measure: DistanceMeasure object (optional)
+            **hyperparams: Algorithm-specific hyperparameters
+            
+        Returns:
+            DRResult object with reduced dataset
+        """
+        pass
+
+
+class DRQualityMeasure(ABC):
+    """
+    Abstract base class for dimensionality reduction quality measures.
+    Project 2 Requirement 2: Quality measure for DR results.
+    """
+    
+    @abstractmethod
+    def evaluate(self, dr_result, original_dataset):
+        """
+        Evaluate dimensionality reduction quality.
+        
+        Args:
+            dr_result: DRResult object
+            original_dataset: Original Dataset object
+            
+        Returns:
+            float: Quality score
+        """
+        pass
+
+
+class DRResult:
+    """
+    Container for dimensionality reduction results.
+    """
+    
+    def __init__(self, reduced_data, explained_variance=None, metadata=None):
+        """
+        Initialize DR result.
+        
+        Args:
+            reduced_data: Reduced data array (2D numpy array)
+            explained_variance: Variance explained (optional)
+            metadata: Additional information (optional)
+        """
+        self.reduced_data = np.array(reduced_data)
+        self.explained_variance = explained_variance
+        self.metadata = metadata or {}
+        self.n_components = self.reduced_data.shape[1] if len(self.reduced_data.shape) > 1 else 1
+    
+    def get_reduced_data(self):
+        """Get reduced data as numpy array"""
+        return self.reduced_data
+    
+    def get_reduced_dataset(self):
+        """Get reduced data as Dataset object"""
+        return Dataset(self.reduced_data)
+    
+    def get_explained_variance(self):
+        """Get explained variance if available"""
+        return self.explained_variance
+
+

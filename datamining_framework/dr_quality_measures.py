@@ -1,8 +1,3 @@
-"""
-Dimensionality Reduction Quality Measures Implementation
-Three different DR quality measure implementations.
-"""
-
 import numpy as np
 from sklearn.metrics import pairwise_distances
 from scipy.stats import spearmanr
@@ -17,16 +12,7 @@ class ReconstructionError(DRQualityMeasure):
     """
     
     def evaluate(self, dr_result, original_dataset):
-        """
-        Calculate reconstruction error.
-        
-        Args:
-            dr_result: DRResult object
-            original_dataset: Original Dataset object
-            
-        Returns:
-            float: Reconstruction error (lower is better)
-        """
+
         original_data = original_dataset.get_data_points()
         reduced_data = dr_result.get_reduced_data()
         
@@ -56,16 +42,7 @@ class TrustworthinessScore(DRQualityMeasure):
     """
     
     def evaluate(self, dr_result, original_dataset):
-        """
-        Calculate trustworthiness score.
-        
-        Args:
-            dr_result: DRResult object
-            original_dataset: Original Dataset object
-            
-        Returns:
-            float: Trustworthiness score (higher is better)
-        """
+
         from sklearn.manifold import trustworthiness
         
         original_data = original_dataset.get_data_points()
@@ -89,16 +66,7 @@ class DistanceCorrelation(DRQualityMeasure):
     """
     
     def evaluate(self, dr_result, original_dataset):
-        """
-        Calculate distance correlation using Spearman's rank correlation.
-        
-        Args:
-            dr_result: DRResult object
-            original_dataset: Original Dataset object
-            
-        Returns:
-            float: Distance correlation (higher is better)
-        """
+
         original_data = original_dataset.get_data_points()
         reduced_data = dr_result.get_reduced_data()
         

@@ -6,6 +6,8 @@ Three different DR technique implementations using sklearn.
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE, MDS
+from scipy.optimize import minimize
+from scipy.spatial.distance import pdist, squareform
 from .core import DimensionalityReductionTechnique, DRResult
 
 
@@ -16,19 +18,7 @@ class PCAReduction(DimensionalityReductionTechnique):
     """
     
     def reduce(self, dataset, distance_measure=None, **hyperparams):
-        """
-        Perform PCA dimensionality reduction.
-        
-        Args:
-            dataset: Dataset object
-            distance_measure: Not used by PCA
-            **hyperparams: PCA hyperparameters
-                - n_components: Number of components (default: 2)
-                - random_state: Random state (default: 42)
-        
-        Returns:
-            DRResult object
-        """
+
         # Extract hyperparameters
         n_components = hyperparams.get('n_components', 2)
         random_state = hyperparams.get('random_state', 42)
@@ -62,26 +52,14 @@ class TSNEReduction(DimensionalityReductionTechnique):
     """
     
     def reduce(self, dataset, distance_measure=None, **hyperparams):
-        """
-        Perform t-SNE dimensionality reduction.
-        
-        Args:
-            dataset: Dataset object
-            distance_measure: DistanceMeasure object (can use custom metric)
-            **hyperparams: t-SNE hyperparameters
-                - n_components: Number of components (default: 2)
-                - perplexity: Perplexity parameter (default: 30)
-                - random_state: Random state (default: 42)
-                - metric: Distance metric (default: 'euclidean')
-        
-        Returns:
-            DRResult object
-        """
+
         # Extract hyperparameters
         n_components = hyperparams.get('n_components', 2)
         perplexity = hyperparams.get('perplexity', 30)
+        learning_rate = hyperparams.get('learning_rate', 'auto')
         random_state = hyperparams.get('random_state', 42)
         metric = hyperparams.get('metric', 'euclidean')
+        max_iter = hyperparams.get('max_iter', 1000)
         
         # Get data points
         data_points = dataset.get_data_points()
@@ -90,6 +68,8 @@ class TSNEReduction(DimensionalityReductionTechnique):
         tsne = TSNE(
             n_components=n_components,
             perplexity=perplexity,
+            learning_rate=learning_rate,
+            max_iter=max_iter,
             random_state=random_state,
             metric=metric
         )
@@ -112,70 +92,62 @@ class TSNEReduction(DimensionalityReductionTechnique):
 class MDSReduction(DimensionalityReductionTechnique):
     """
     MDS (Multidimensional Scaling) dimensionality reduction.
-    Preserves distances between points.
+    Preserves pairwise distances between points using sklearn's optimized implementation.
     """
     
     def reduce(self, dataset, distance_measure=None, **hyperparams):
-        """
-        Perform MDS dimensionality reduction.
-        
-        Args:
-            dataset: Dataset object
-            distance_measure: DistanceMeasure object (can use custom distance)
-            **hyperparams: MDS hyperparameters
-                - n_components: Number of components (default: 2)
-                - random_state: Random state (default: 42)
-                - metric: Use metric MDS (default: True)
-        
-        Returns:
-            DRResult object
-        """
+
         # Extract hyperparameters
         n_components = hyperparams.get('n_components', 2)
-        random_state = hyperparams.get('random_state', 42)
         metric = hyperparams.get('metric', True)
+        max_iter = hyperparams.get('max_iter', 300)
+        random_state = hyperparams.get('random_state', 42)
+        n_init = hyperparams.get('n_init', 4)  # Explicitly set to suppress warning
+
         
         # Get data points
         data_points = dataset.get_data_points()
         
         # Use custom distance measure if provided
         if distance_measure is not None:
-            # Compute pairwise distance matrix
+            # Compute pairwise distance matrix using vectorized operations
             n_points = len(data_points)
-            distance_matrix = np.zeros((n_points, n_points))
             
+            # For custom distance, we still need a loop but optimize where possible
+            distances = []
             for i in range(n_points):
                 for j in range(i + 1, n_points):
-                    dist = distance_measure.calculate(data_points[i], data_points[j])
-                    distance_matrix[i, j] = dist
-                    distance_matrix[j, i] = dist
+                    distances.append(distance_measure.calculate(data_points[i], data_points[j]))
             
-            # Use precomputed distance matrix
-            mds = MDS(
-                n_components=n_components,
-                random_state=random_state,
-                metric=metric,
-                dissimilarity='precomputed'
-            )
-            reduced_data = mds.fit_transform(distance_matrix)
+            distance_matrix = squareform(distances)
+            dissimilarity = 'precomputed'
         else:
-            # Use standard sklearn implementation
-            mds = MDS(
-                n_components=n_components,
-                random_state=random_state,
-                metric=metric
-            )
-            reduced_data = mds.fit_transform(data_points)
+            # Let sklearn handle distance computation
+            distance_matrix = data_points
+            dissimilarity = 'euclidean'
+        
+        # Apply MDS using sklearn's optimized implementation
+        mds = MDS(
+            n_components=n_components,
+            metric=metric,
+            n_init=n_init,
+            max_iter=max_iter,
+            random_state=random_state,
+            dissimilarity=dissimilarity,
+            n_jobs=-1  # Use all available cores for speed
+        )
+        reduced_data = mds.fit_transform(distance_matrix)
         
         # Store metadata
         metadata = {
             'algorithm': 'MDS',
             'hyperparams': hyperparams,
-            'stress': mds.stress_ if hasattr(mds, 'stress_') else None
+            'stress': mds.stress_,
+            'n_iter': mds.n_iter_
         }
         
         return DRResult(
             reduced_data=reduced_data,
-            explained_variance=None,  # MDS doesn't provide this
+            explained_variance=None,  # MDS doesn't provide explained variance
             metadata=metadata
         )

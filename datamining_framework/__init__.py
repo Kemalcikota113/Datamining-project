@@ -4,6 +4,7 @@ from .clustering_techniques import KMeansClustering, DBSCANClustering, Hierarchi
 from .quality_measures import SilhouetteScore, CalinskiHarabaszScore, DaviesBouldinScore
 from .dr_techniques import PCAReduction, TSNEReduction, MDSReduction
 from .dr_quality_measures import ReconstructionError, TrustworthinessScore, DistanceCorrelation
+from .util import load_csv, normalize_dataset, save_csv, get_dataset_info, split_features_labels
 
 # Version info
 __version__ = "3.0.0"
@@ -40,6 +41,13 @@ __all__ = [
     'ReconstructionError',
     'TrustworthinessScore',
     'DistanceCorrelation',
+    
+    # Utility functions
+    'load_csv',
+    'normalize_dataset',
+    'save_csv',
+    'get_dataset_info',
+    'split_features_labels',
     
     # Convenience functions
     'load_dataset',

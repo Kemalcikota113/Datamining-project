@@ -1,8 +1,3 @@
-"""
-Dimensionality Reduction Techniques Implementation
-Three different DR technique implementations using sklearn.
-"""
-
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE, MDS
@@ -12,10 +7,9 @@ from .core import DimensionalityReductionTechnique, DRResult
 
 
 class PCAReduction(DimensionalityReductionTechnique):
-    """
-    PCA (Principal Component Analysis) dimensionality reduction.
-    Linear technique that finds principal components.
-    """
+    
+    # PCA (Principal Component Analysis) dimensionality reduction.
+
     
     def reduce(self, dataset, distance_measure=None, **hyperparams):
 
@@ -46,10 +40,9 @@ class PCAReduction(DimensionalityReductionTechnique):
 
 
 class TSNEReduction(DimensionalityReductionTechnique):
-    """
-    t-SNE (t-Distributed Stochastic Neighbor Embedding) dimensionality reduction.
-    Non-linear technique good for visualization.
-    """
+    
+    # t-SNE (t-Distributed Stochastic Neighbor Embedding) dimensionality reduction.
+
     
     def reduce(self, dataset, distance_measure=None, **hyperparams):
 
@@ -90,10 +83,9 @@ class TSNEReduction(DimensionalityReductionTechnique):
 
 
 class MDSReduction(DimensionalityReductionTechnique):
-    """
-    MDS (Multidimensional Scaling) dimensionality reduction.
-    Preserves pairwise distances between points using sklearn's optimized implementation.
-    """
+    
+    # MDS (Multidimensional Scaling) dimensionality reduction.
+
     
     def reduce(self, dataset, distance_measure=None, **hyperparams):
 

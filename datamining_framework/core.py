@@ -1,22 +1,12 @@
-from abc import ABC, abstractmethod
 import pandas as pd
 import numpy as np
 
+
 class Dataset:
-    """
-    Component for handling structured data.
-    Requirement 1: Dataset component with methods to get data points and features.
-    """
+    # Handle structured data with methods to access points and features
     
     def __init__(self, data):
-        """
-        Initialize dataset.
-        
-        Args:
-            data: pandas DataFrame, numpy array, or file path
-        """
         if isinstance(data, str):
-            # Load from file
             if data.endswith('.csv'):
                 self.data = pd.read_csv(data)
             elif data.endswith('.xlsx') or data.endswith('.xls'):
@@ -31,215 +21,244 @@ class Dataset:
             raise ValueError("Unsupported data type")
     
     def get_data_points(self):
-        """
-        Get data points (rows).
-        
-        Returns:
-            numpy array of data points
-        """
+        # Return data as numpy array.
         return self.data.values
     
     def get_features(self):
-        """
-        Get features (columns).
-        
-        Returns:
-            list of feature names or indices
-        """
+        # Return list of feature names.
         return self.data.columns.tolist()
     
     def get_shape(self):
-        """Get dataset shape"""
+        #Return dataset shape.
         return self.data.shape
     
     def get_dataframe(self):
-        """Get underlying DataFrame"""
+        #Return copy of underlying DataFrame
         return self.data.copy()
 
 
-class DistanceMeasure(ABC):
-    """
-    Abstract base class for distance measures.
-    Requirement 2: Distance measure component that takes two points and returns distance.
-    """
+class DistanceMeasure:
+    #Base class for distance measures.
     
-    @abstractmethod
     def calculate(self, point1, point2):
-        """
-        Calculate distance between two points.
-        
-        Args:
-            point1: First data point (array-like)
-            point2: Second data point (array-like)
-            
-        Returns:
-            float: Distance value
-        """
-        pass
+        #Calculate distance between two points.
+        raise NotImplementedError
 
 
-class ClusteringTechnique(ABC):
-    """
-    Abstract base class for clustering techniques.
-    Requirement 3: Clustering component that accepts dataset and hyperparameters.
-    """
+class ClusteringTechnique:
+    #Base class for clustering techniques
     
-    @abstractmethod
     def cluster(self, dataset, distance_measure=None, **hyperparams):
-        """
-        Perform clustering on dataset.
-        
-        Args:
-            dataset: Dataset object
-            distance_measure: DistanceMeasure object (optional)
-            **hyperparams: Algorithm-specific hyperparameters
-            
-        Returns:
-            ClusteringResult object
-        """
-        pass
+        #Perform clustering on dataset.
+        raise NotImplementedError
 
 
-class QualityMeasure(ABC):
-    """
-    Abstract base class for quality measures.
-    Requirement 4: Quality measure for clustering that takes clustering results and dataset.
-    """
+class QualityMeasure:
+    #Base class for quality measures.
     
-    @abstractmethod
     def evaluate(self, clustering_result, dataset):
-        """
-        Evaluate clustering quality.
-        
-        Args:
-            clustering_result: ClusteringResult object
-            dataset: Original Dataset object
-            
-        Returns:
-            float: Quality score
-        """
-        pass
+        #Evaluate clustering quality.
+        raise NotImplementedError
 
 
 class ClusteringResult:
-    """
-    Container for clustering results.
-    """
+    #Container for clustering results.
     
     def __init__(self, labels, centers=None, metadata=None):
-        """
-        Initialize clustering result.
-        
-        Args:
-            labels: Cluster labels for each data point
-            centers: Cluster centers (optional)
-            metadata: Additional information (optional)
-        """
         self.labels = np.array(labels)
         self.centers = centers
         self.metadata = metadata or {}
-        self.n_clusters = len(np.unique(labels[labels >= 0]))  # Exclude noise points (-1)
+        self.n_clusters = len(np.unique(labels[labels >= 0]))
     
     def get_labels(self):
-        """Get cluster labels"""
+        #Return cluster labels.
         return self.labels
     
     def get_centers(self):
-        """Get cluster centers"""
+        #Return cluster centers.
         return self.centers
     
     def get_clusters(self):
-        """
-        Get clusters as list of lists of point indices.
-        
-        Returns:
-            list: List of clusters, each cluster is a list of point indices
-        """
+        #Return list of clusters (each cluster is list of point indices).
         clusters = []
         unique_labels = np.unique(self.labels)
         
         for label in unique_labels:
-            if label >= 0:  # Exclude noise points (-1)
+            if label >= 0:
                 cluster_points = np.where(self.labels == label)[0].tolist()
                 clusters.append(cluster_points)
         
         return clusters
 
 
-# Project 2: Dimensionality Reduction Components
-
-class DimensionalityReductionTechnique(ABC):
-    """
-    Abstract base class for dimensionality reduction techniques.
-    Project 2 Requirement 1: DR component that accepts dataset and hyperparameters.
-    """
+class DimensionalityReductionTechnique:
+    #Base class for dimensionality reduction techniques.
     
-    @abstractmethod
     def reduce(self, dataset, distance_measure=None, **hyperparams):
-        """
-        Perform dimensionality reduction on dataset.
-        
-        Args:
-            dataset: Dataset object
-            distance_measure: DistanceMeasure object (optional)
-            **hyperparams: Algorithm-specific hyperparameters
-            
-        Returns:
-            DRResult object with reduced dataset
-        """
-        pass
+        #Perform dimensionality reduction on dataset.
+        raise NotImplementedError
 
 
-class DRQualityMeasure(ABC):
-    """
-    Abstract base class for dimensionality reduction quality measures.
-    Project 2 Requirement 2: Quality measure for DR results.
-    """
+class DRQualityMeasure:
+    #Base class for DR quality measures.
     
-    @abstractmethod
     def evaluate(self, dr_result, original_dataset):
-        """
-        Evaluate dimensionality reduction quality.
-        
-        Args:
-            dr_result: DRResult object
-            original_dataset: Original Dataset object
-            
-        Returns:
-            float: Quality score
-        """
-        pass
+        #Evaluate dimensionality reduction quality.
+        raise NotImplementedError
 
 
 class DRResult:
-    """
-    Container for dimensionality reduction results.
-    """
+    #Container for dimensionality reduction results.
     
     def __init__(self, reduced_data, explained_variance=None, metadata=None):
-        """
-        Initialize DR result.
-        
-        Args:
-            reduced_data: Reduced data array (2D numpy array)
-            explained_variance: Variance explained (optional)
-            metadata: Additional information (optional)
-        """
         self.reduced_data = np.array(reduced_data)
         self.explained_variance = explained_variance
         self.metadata = metadata or {}
         self.n_components = self.reduced_data.shape[1] if len(self.reduced_data.shape) > 1 else 1
     
     def get_reduced_data(self):
-        """Get reduced data as numpy array"""
+        #Return reduced data as numpy array.
         return self.reduced_data
     
     def get_reduced_dataset(self):
-        """Get reduced data as Dataset object"""
+        #Return reduced data as Dataset object
         return Dataset(self.reduced_data)
     
     def get_explained_variance(self):
-        """Get explained variance if available"""
+        #Return explained variance if available.
         return self.explained_variance
 
 
+class Network:
+    #Handle network/graph data with methods to access nodes and edges.
+    
+    def __init__(self, data=None, directed=False):
+        import networkx as nx
+        
+        self.directed = directed
+        self.graph = nx.DiGraph() if directed else nx.Graph()
+        
+        if data is not None:
+            if isinstance(data, str):
+                self._load_from_file(data)
+            elif isinstance(data, list):
+                self.graph.add_edges_from(data)
+            elif isinstance(data, np.ndarray):
+                self._load_from_adjacency_matrix(data)
+            else:
+                raise ValueError("Unsupported data type for Network")
+    
+    def _load_from_file(self, filepath):
+        #Load network from file.
+        import networkx as nx
+        
+        if filepath.endswith('.edgelist') or filepath.endswith('.txt'):
+            self.graph = nx.read_edgelist(filepath, create_using=nx.DiGraph() if self.directed else nx.Graph())
+        elif filepath.endswith('.gml'):
+            self.graph = nx.read_gml(filepath)
+        elif filepath.endswith('.graphml'):
+            self.graph = nx.read_graphml(filepath)
+        elif filepath.endswith('.csv'):
+            df = pd.read_csv(filepath)
+            if len(df.columns) >= 2:
+                edges = list(zip(df.iloc[:, 0], df.iloc[:, 1]))
+                self.graph.add_edges_from(edges)
+            else:
+                raise ValueError("CSV must have at least 2 columns for edge list")
+        else:
+            raise ValueError("Unsupported file format for Network")
+    
+    def _load_from_adjacency_matrix(self, matrix):
+        #Load network from adjacency matrix.
+        import networkx as nx
+        self.graph = nx.from_numpy_array(matrix, create_using=nx.DiGraph() if self.directed else nx.Graph())
+    
+    def get_nodes(self):
+        #Return list of nodes.
+        return list(self.graph.nodes())
+    
+    def get_edges(self):
+        #Return list of edges.
+        return list(self.graph.edges())
+    
+    def get_graph(self):
+        #Return underlying NetworkX graph.
+        return self.graph
+    
+    def get_adjacency_matrix(self):
+        #Return adjacency matrix as numpy array.
+        import networkx as nx
+        return nx.to_numpy_array(self.graph)
+    
+    def num_nodes(self):
+        #Return number of nodes.
+        return self.graph.number_of_nodes()
+    
+    def num_edges(self):
+        #Return number of edges.
+        return self.graph.number_of_edges()
+    
+    def is_directed(self):
+        #Return True if network is directed.
+        return self.directed
+
+
+class CommunityDetectionTechnique:
+    #Base class for community detection techniques.
+
+    def detect_communities(self, network, **hyperparams):
+        #Detect communities in a network.
+        raise NotImplementedError
+
+
+class NodeMeasure:
+    #Base class for node measures.
+
+    def calculate(self, network, **params):
+        #Calculate measure for each node in the network.
+        raise NotImplementedError
+
+
+class EdgeMeasure:
+    #Base class for edge measures.
+
+    def calculate(self, network, **params):
+        #Calculate measure for each edge in the network.
+        raise NotImplementedError
+
+
+class CommunityResult:
+    #Container for community detection results.
+
+    def __init__(self, communities, metadata=None):
+        self.metadata = metadata or {}
+        
+        # Support both dict and list formats
+        if isinstance(communities, dict):
+            self.node_to_community = communities
+            community_sets = {}
+            for node, comm_id in communities.items():
+                if comm_id not in community_sets:
+                    community_sets[comm_id] = []
+                community_sets[comm_id].append(node)
+            self.communities = list(community_sets.values())
+        else:
+            self.communities = [list(c) for c in communities]
+            self.node_to_community = {}
+            for comm_id, community in enumerate(self.communities):
+                for node in community:
+                    self.node_to_community[node] = comm_id
+        
+        self.n_communities = len(self.communities)
+    
+    def get_communities(self):
+        #Return list of communities.
+        return self.communities
+    
+    def get_community_labels(self):
+        #Return node to community label mapping.
+        return self.node_to_community
+    
+    def get_community_of_node(self, node):
+        #Return community label for a specific node.
+        return self.node_to_community.get(node, -1)

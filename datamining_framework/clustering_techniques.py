@@ -5,10 +5,8 @@ from .core import ClusteringTechnique, ClusteringResult
 
 
 class KMeansClustering(ClusteringTechnique):
-    """
-    K-Means clustering implementation.
-    Groups data into k clusters using centroid-based approach.
-    """
+
+    # K-Means clustering implementation.
     
     def cluster(self, dataset, distance_measure=None, **hyperparams):
 
@@ -45,10 +43,9 @@ class KMeansClustering(ClusteringTechnique):
 
 
 class DBSCANClustering(ClusteringTechnique):
-    """
-    DBSCAN clustering implementation.
-    Density-based clustering that can find clusters of arbitrary shape.
-    """
+    
+    # DBSCAN clustering implementation.
+
     
     def cluster(self, dataset, distance_measure=None, **hyperparams):
 
@@ -104,10 +101,9 @@ class DBSCANClustering(ClusteringTechnique):
 
 
 class HierarchicalClustering(ClusteringTechnique):
-    """
-    Hierarchical clustering implementation.
-    Agglomerative clustering that builds hierarchy of clusters.
-    """
+    
+    # Hierarchical clustering implementation.
+ 
     
     def cluster(self, dataset, distance_measure=None, **hyperparams):
 

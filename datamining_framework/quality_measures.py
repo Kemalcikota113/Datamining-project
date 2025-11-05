@@ -1,20 +1,10 @@
-"""
-Quality Measures Implementation
-Simplified implementations using sklearn with proper error handling.
-"""
-
 import numpy as np
 from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
 from .core import QualityMeasure
 
 
 def _validate_clustering_data(clustering_result, dataset):
-    """
-    Helper function to validate and prepare clustering data.
-    
-    Returns:
-        tuple: (valid_data, valid_labels) or (None, None) if invalid
-    """
+
     data_points = dataset.get_data_points()
     labels = clustering_result.get_labels()
     
@@ -34,10 +24,9 @@ def _validate_clustering_data(clustering_result, dataset):
 
 
 class SilhouetteScore(QualityMeasure):
-    """
-    Silhouette score using sklearn implementation.
-    Range: [-1, 1], higher is better.
-    """
+    
+    # Silhouette score using sklearn implementation.
+
     
     def evaluate(self, clustering_result, dataset):
         valid_data, valid_labels = _validate_clustering_data(clustering_result, dataset)
@@ -48,10 +37,9 @@ class SilhouetteScore(QualityMeasure):
 
 
 class CalinskiHarabaszScore(QualityMeasure):
-    """
-    Calinski-Harabasz score using sklearn implementation.
-    Range: [0, +inf), higher is better.
-    """
+    
+    # Calinski-Harabasz score using sklearn implementation.
+
     
     def evaluate(self, clustering_result, dataset):
         valid_data, valid_labels = _validate_clustering_data(clustering_result, dataset)
@@ -62,10 +50,9 @@ class CalinskiHarabaszScore(QualityMeasure):
 
 
 class DaviesBouldinScore(QualityMeasure):
-    """
-    Davies-Bouldin score using sklearn implementation.
-    Range: [0, +inf), lower is better.
-    """
+    
+    # Davies-Bouldin score using sklearn implementation.
+
     
     def evaluate(self, clustering_result, dataset):
         valid_data, valid_labels = _validate_clustering_data(clustering_result, dataset)

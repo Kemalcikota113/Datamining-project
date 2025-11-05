@@ -4,10 +4,9 @@ from .core import DistanceMeasure
 
 
 class EuclideanDistance(DistanceMeasure):
-    """
-    Euclidean distance measure using sklearn implementation.
-    Standard L2 norm distance.
-    """
+    
+    # Euclidean distance measure using sklearn implementation.
+
     
     def calculate(self, point1, point2):
         point1 = np.array(point1).reshape(1, -1)
@@ -16,10 +15,9 @@ class EuclideanDistance(DistanceMeasure):
 
 
 class ManhattanDistance(DistanceMeasure):
-    """
-    Manhattan distance measure using sklearn implementation.
-    L1 norm distance (sum of absolute differences).
-    """
+
+    # Manhattan distance measure using sklearn implementation.
+
     
     def calculate(self, point1, point2):
         point1 = np.array(point1).reshape(1, -1)
@@ -28,10 +26,9 @@ class ManhattanDistance(DistanceMeasure):
 
 
 class CosineDistance(DistanceMeasure):
-    """
-    Cosine distance measure using sklearn implementation.
-    1 - cosine similarity between two vectors.
-    """
+    
+    # Cosine distance measure using sklearn implementation.
+
     
     def calculate(self, point1, point2):
         point1 = np.array(point1).reshape(1, -1)

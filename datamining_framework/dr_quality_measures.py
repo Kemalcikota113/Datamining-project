@@ -5,11 +5,9 @@ from .core import DRQualityMeasure
 
 
 class ReconstructionError(DRQualityMeasure):
-    """
-    Reconstruction error quality measure.
-    Measures how well the reduced data can be reconstructed.
-    Range: [0, +inf), lower is better.
-    """
+    
+    # Reconstruction error quality measure.
+
     
     def evaluate(self, dr_result, original_dataset):
 
@@ -35,11 +33,9 @@ class ReconstructionError(DRQualityMeasure):
 
 
 class TrustworthinessScore(DRQualityMeasure):
-    """
-    Trustworthiness score quality measure.
-    Measures how well local neighborhoods are preserved.
-    Range: [0, 1], higher is better.
-    """
+    
+    #  Trustworthiness score quality measure.
+
     
     def evaluate(self, dr_result, original_dataset):
 
@@ -48,9 +44,9 @@ class TrustworthinessScore(DRQualityMeasure):
         original_data = original_dataset.get_data_points()
         reduced_data = dr_result.get_reduced_data()
         
-        # Use k = min(12, n_samples - 1) as recommended
+        # k should be less than n_samples / 2
         n_samples = len(original_data)
-        k = min(12, n_samples - 1)
+        k = min(12, n_samples // 2 - 1, n_samples - 1)
         
         if k < 1:
             return 0.0
@@ -59,11 +55,9 @@ class TrustworthinessScore(DRQualityMeasure):
 
 
 class DistanceCorrelation(DRQualityMeasure):
-    """
-    Distance correlation quality measure.
-    Measures correlation between original and reduced distance matrices.
-    Range: [-1, 1], higher is better.
-    """
+    
+    # Distance correlation quality measure.
+
     
     def evaluate(self, dr_result, original_dataset):
 

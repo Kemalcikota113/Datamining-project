@@ -1,13 +1,16 @@
-from .core import Dataset, ClusteringResult, DRResult
+from .core import Dataset, ClusteringResult, DRResult, Network, CommunityResult
 from .distance_measures import EuclideanDistance, ManhattanDistance, CosineDistance
 from .clustering_techniques import KMeansClustering, DBSCANClustering, HierarchicalClustering
 from .quality_measures import SilhouetteScore, CalinskiHarabaszScore, DaviesBouldinScore
 from .dr_techniques import PCAReduction, TSNEReduction, MDSReduction
 from .dr_quality_measures import ReconstructionError, TrustworthinessScore, DistanceCorrelation
 from .util import load_csv, normalize_dataset, save_csv, get_dataset_info, split_features_labels
+from .community_detection import LouvainCommunityDetection, GirvanNewmanCommunityDetection, LabelPropagationCommunityDetection
+from .node_measures import PageRankMeasure, DegreeCentralityMeasure, BetweennessCentralityMeasure, ClosenessCentralityMeasure
+from .edge_measures import EdgeBetweennessMeasure, EdgeCurrentFlowMeasure, EdgeLoadMeasure, EdgeWeightMeasure
 
 # Version info
-__version__ = "3.0.0"
+__version__ = "4.0.0"
 __author__ = "Kemal"
 
 # Export main components for easy access
@@ -16,6 +19,8 @@ __all__ = [
     'Dataset',
     'ClusteringResult',
     'DRResult',
+    'Network',
+    'CommunityResult',
     
     # Distance measures
     'EuclideanDistance',
@@ -42,6 +47,19 @@ __all__ = [
     'TrustworthinessScore',
     'DistanceCorrelation',
     
+    # Network components (Project 3)
+    'LouvainCommunityDetection',
+    'GirvanNewmanCommunityDetection',
+    'LabelPropagationCommunityDetection',
+    'PageRankMeasure',
+    'DegreeCentralityMeasure',
+    'BetweennessCentralityMeasure',
+    'ClosenessCentralityMeasure',
+    'EdgeBetweennessMeasure',
+    'EdgeCurrentFlowMeasure',
+    'EdgeLoadMeasure',
+    'EdgeWeightMeasure',
+    
     # Utility functions
     'load_csv',
     'normalize_dataset',
@@ -51,11 +69,15 @@ __all__ = [
     
     # Convenience functions
     'load_dataset',
+    'load_network',
     'get_all_distance_measures',
     'get_all_clustering_techniques', 
     'get_all_quality_measures',
     'get_all_dr_techniques',
-    'get_all_dr_quality_measures'
+    'get_all_dr_quality_measures',
+    'get_all_community_detection_techniques',
+    'get_all_node_measures',
+    'get_all_edge_measures'
 ]
 
 # Convenience functions for easy access
@@ -95,4 +117,31 @@ def get_all_dr_quality_measures():
         'reconstruction_error': ReconstructionError,
         'trustworthiness': TrustworthinessScore,
         'distance_correlation': DistanceCorrelation
+    }
+
+def load_network(data, directed=False):
+    """Load network from data or file"""
+    return Network(data, directed=directed)
+
+def get_all_community_detection_techniques():
+    return {
+        'louvain': LouvainCommunityDetection,
+        'girvan_newman': GirvanNewmanCommunityDetection,
+        'label_propagation': LabelPropagationCommunityDetection
+    }
+
+def get_all_node_measures():
+    return {
+        'pagerank': PageRankMeasure,
+        'degree_centrality': DegreeCentralityMeasure,
+        'betweenness_centrality': BetweennessCentralityMeasure,
+        'closeness_centrality': ClosenessCentralityMeasure
+    }
+
+def get_all_edge_measures():
+    return {
+        'edge_betweenness': EdgeBetweennessMeasure,
+        'edge_current_flow': EdgeCurrentFlowMeasure,
+        'edge_load': EdgeLoadMeasure,
+        'edge_weight': EdgeWeightMeasure
     }

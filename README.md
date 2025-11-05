@@ -1,95 +1,37 @@
-# Data Mining Framework
+# Datamining pipeline project
 
-A modular Python framework for clustering, dimensionality reduction, and network analysis.
+## Datamining framework documentation
 
-## Installation
+* **`__init__.py`** acts as the API layer and routes the calls from main the the specific class and function.
+* **`core.py`** is a abstract class that defines the fundamental architecture. It also provides the interfaces for the algorithms that is used like `DistanceMeasure`, `ClusteringTechnique`, and `QualityMeasure`
+* **`distance_measures.py`** implements 3 different distance metrics for comparing the data points with each other. It implements Euclidean, Manhattan and Cosine distance.
+* **`clustering_techniques.py`** implements 3 different clustering algorithms with configurable hyperparameters. here we implement `Kmeans`, `DBScan` and `Hierarchichal` which were presented in the lecture slides
+* **`quality_measures.py`** implement 3 different quality measure metrics to evaluate the performance. From the slides i implemented `silhouetteScore` but there is also some other which were not presented in the slides but that are supposed to be common.
 
-```bash
+## How to run (For Linux and Mac)
+
+1. go to root directory here
+```
+cd path/datamining-project
+```
+2. create venv and activate it
+```
+Python3 -m venv venv
+source venv/bin/activate
+```
+3. install dependencies
+```
 pip install -r requirements.txt
 ```
-
-## Quick Start
-
-### Run Main Demo
-```bash
-python main.py
+4. run main
 ```
-
-### Run Health Check
-```bash
-python test.py
+python3 main.py
 ```
-
-### Run Project-Specific Demos
-```bash
-python project1_demo.py  # Clustering
-python project2_demo.py  # Dimensionality Reduction
-python project3_demo.py  # Network Analysis
+5. display results
+```
+cat project1_results.csv
 ```
 
 ## Usage
 
-```python
-import datamining_framework as dmf
-from sklearn.datasets import load_iris
-
-# Load data
-dataset = dmf.load_dataset(load_iris().data)
-
-# Normalize
-normalized = dmf.normalize_dataset(dataset, method='standard')
-
-# Cluster
-kmeans = dmf.KMeansClustering()
-result = kmeans.cluster(normalized, n_clusters=3)
-
-# Evaluate
-silhouette = dmf.SilhouetteScore()
-score = silhouette.evaluate(result, normalized)
-print(f"Silhouette score: {score:.4f}")
-```
-
-## Components
-
-### Clustering (Project 1)
-- **Distance Measures:** Euclidean, Manhattan, Cosine
-- **Clustering:** K-Means, DBSCAN, Hierarchical
-- **Quality Measures:** Silhouette, Calinski-Harabasz, Davies-Bouldin
-
-### Dimensionality Reduction (Project 2)
-- **DR Techniques:** PCA, t-SNE, MDS
-- **DR Quality:** Reconstruction Error, Trustworthiness, Distance Correlation
-
-### Network Analysis (Project 3)
-- **Community Detection:** Louvain, Girvan-Newman, Label Propagation
-- **Node Measures:** PageRank, Degree, Betweenness, Closeness
-- **Edge Measures:** Edge Betweenness, Current Flow, Load, Weight
-
-## Requirements
-
-- Python 3.8+
-- scikit-learn >= 1.0.0
-- numpy >= 1.20.0
-- pandas >= 1.3.0
-- networkx >= 2.6.0
-- scipy >= 1.7.0
-
-## Project Structure
-
-```
-datamining_framework/
-├── core.py                    # Base classes and data structures
-├── distance_measures.py       # Distance measure implementations
-├── clustering_techniques.py   # Clustering algorithms
-├── quality_measures.py        # Clustering quality measures
-├── dr_techniques.py          # Dimensionality reduction
-├── dr_quality_measures.py    # DR quality measures
-├── community_detection.py    # Community detection algorithms
-├── node_measures.py          # Node centrality measures
-├── edge_measures.py          # Edge centrality measures
-└── util.py                   # Utility functions
-```
-
-## License
-
-Educational project for data mining course.
+In order to get a small tutorial on how to run it, look at **`small_example.py`** and play around with it.

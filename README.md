@@ -1,12 +1,17 @@
 # Datamining pipeline project
 
-## Datamining framework documentation
+## Overview
 
-* **`__init__.py`** acts as the API layer and routes the calls from main the the specific class and function.
-* **`core.py`** is a abstract class that defines the fundamental architecture. It also provides the interfaces for the algorithms that is used like `DistanceMeasure`, `ClusteringTechnique`, and `QualityMeasure`
-* **`distance_measures.py`** implements 3 different distance metrics for comparing the data points with each other. It implements Euclidean, Manhattan and Cosine distance.
-* **`clustering_techniques.py`** implements 3 different clustering algorithms with configurable hyperparameters. here we implement `Kmeans`, `DBScan` and `Hierarchichal` which were presented in the lecture slides
-* **`quality_measures.py`** implement 3 different quality measure metrics to evaluate the performance. From the slides i implemented `silhouetteScore` but there is also some other which were not presented in the slides but that are supposed to be common.
+A modular framework for clustering, dimensionality reduction, and network analysis. Supports multiple algorithms for each task with quality evaluation metrics.
+
+### Project 1: Clustering
+Built a clustering pipeline with distance measures (Euclidean, Manhattan, Cosine), clustering algorithms (K-Means, DBSCAN, Hierarchical), and quality metrics (Silhouette, Calinski-Harabasz, Davies-Bouldin). Structured as reusable classes with a common interface for easy comparison of techniques.
+
+### Project 2: Dimensionality Reduction
+Extended the framework with DR techniques (PCA, t-SNE, MDS) and quality measures (Reconstruction Error, Trustworthiness, Distance Correlation). Designed to work seamlessly with the existing pipeline for visualizing high-dimensional data.
+
+### Project 3: Network Analysis
+Added graph analysis capabilities including community detection (Louvain, Girvan-Newman, Fast Newman), node centrality measures (PageRank, Degree, Betweenness, Closeness), and edge measures (Betweenness, Current Flow, Load). Built on NetworkX for efficient graph operations.
 
 ## How to run (For Linux and Mac)
 
@@ -27,11 +32,35 @@ pip install -r requirements.txt
 ```
 python3 main.py
 ```
-5. display results
+
+5. check results
 ```
 cat project1_results.csv
 ```
 
+## How to run (Windows 11)
+
+1. Open powershell or cmd
+
+2. go to root directory here
+```
+cd path/datamining-project
+```
+3. create venv and activate it
+```
+Python -m venv venv
+venv/bin/activate.ps1
+```
+4. install dependencies
+```
+pip install -r requirements.txt
+```
+5. run main
+```
+python main.py
+```
+
+
 ## Usage
 
-In order to get a small tutorial on how to run it, look at **`small_example.py`** and play around with it.
+In order to get a small tutorial on how to run it, look at **`project1_demo.py`** and other demo files and play around with it.

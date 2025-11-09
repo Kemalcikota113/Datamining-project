@@ -5,7 +5,7 @@ from .quality_measures import SilhouetteScore, CalinskiHarabaszScore, DaviesBoul
 from .dr_techniques import PCAReduction, TSNEReduction, MDSReduction
 from .dr_quality_measures import ReconstructionError, TrustworthinessScore, DistanceCorrelation
 from .util import load_csv, normalize_dataset, save_csv, get_dataset_info, split_features_labels
-from .community_detection import LouvainCommunityDetection, GirvanNewmanCommunityDetection, LabelPropagationCommunityDetection
+from .community_detection import LouvainCommunityDetection, GirvanNewmanCommunityDetection, FastNewmanCommunityDetection
 from .node_measures import PageRankMeasure, DegreeCentralityMeasure, BetweennessCentralityMeasure, ClosenessCentralityMeasure
 from .edge_measures import EdgeBetweennessMeasure, EdgeCurrentFlowMeasure, EdgeLoadMeasure, EdgeWeightMeasure
 
@@ -50,7 +50,7 @@ __all__ = [
     # Network components (Project 3)
     'LouvainCommunityDetection',
     'GirvanNewmanCommunityDetection',
-    'LabelPropagationCommunityDetection',
+    'FastNewmanCommunityDetection',
     'PageRankMeasure',
     'DegreeCentralityMeasure',
     'BetweennessCentralityMeasure',
@@ -127,7 +127,7 @@ def get_all_community_detection_techniques():
     return {
         'louvain': LouvainCommunityDetection,
         'girvan_newman': GirvanNewmanCommunityDetection,
-        'label_propagation': LabelPropagationCommunityDetection
+        'fast_newman': FastNewmanCommunityDetection
     }
 
 def get_all_node_measures():

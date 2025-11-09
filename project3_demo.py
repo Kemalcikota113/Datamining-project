@@ -42,7 +42,7 @@ def test_community_detection(network):
     
     techniques = {
         'Louvain': dmf.LouvainCommunityDetection(),
-        'Label Propagation': dmf.LabelPropagationCommunityDetection(),
+        'Fast Newman': dmf.FastNewmanCommunityDetection(),
         'Girvan-Newman': dmf.GirvanNewmanCommunityDetection()
     }
     
@@ -59,13 +59,13 @@ def test_community_detection(network):
         
         results[name] = result
         
-        print(f"      Communities found: {result.n_communities}")
-        print(f"      Modularity: {result.metadata.get('modularity', 'N/A'):.4f}")
+        print(f"Communities found: {result.n_communities}")
+        print(f"Modularity: {result.metadata.get('modularity', 'N/A'):.4f}")
         
         # Show community sizes
         communities = result.get_communities()
         sizes = [len(c) for c in communities]
-        print(f"      Community sizes: {sizes}")
+        print(f"Community sizes: {sizes}")
     
     return results
 
@@ -94,8 +94,8 @@ def test_node_measures(network):
         sorted_nodes = sorted(values.items(), key=lambda x: x[1], reverse=True)
         top_3 = sorted_nodes[:3]
         
-        print(f"      Total nodes measured: {len(values)}")
-        print(f"      Top 3 nodes:")
+        print(f"Total nodes measured: {len(values)}")
+        print(f"Top 3 nodes:")
         for node, value in top_3:
             print(f"         Node {node}: {value:.4f}")
     
@@ -144,7 +144,7 @@ def comprehensive_pipeline_test():
     # Get all techniques
     community_techniques = {
         'Louvain': dmf.LouvainCommunityDetection(),
-        'Label Propagation': dmf.LabelPropagationCommunityDetection()
+        'Fast Newman': dmf.FastNewmanCommunityDetection()
     }
     
     node_measures = {
@@ -301,7 +301,7 @@ def main():
     test_custom_network()
     
     print("\n" + "=" * 70)
-    print("✅ PROJECT 3 DEMONSTRATION COMPLETE!")
+    print("PROJECT 3 DEMONSTRATION COMPLETE!")
     print("=" * 70)
     print("\nKey Findings:")
     print("1. Network component successfully loads and exposes nodes/edges")

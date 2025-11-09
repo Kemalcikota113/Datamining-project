@@ -1,8 +1,3 @@
-"""
-Simple demonstration of datamining framework usage.
-Shows one algorithm from each category: clustering, DR, and network analysis.
-"""
-
 import datamining_framework as dmf
 import networkx as nx
 import numpy as np
@@ -11,9 +6,7 @@ print("=" * 70)
 print("DATA MINING FRAMEWORK - REALISTIC USAGE EXAMPLE")
 print("=" * 70)
 
-# =============================================================================
 # 1. CLUSTERING
-# =============================================================================
 print("\n1. CLUSTERING")
 print("-" * 70)
 
@@ -35,9 +28,7 @@ print(f"Algorithm: K-Means")
 print(f"Clusters found: {result.n_clusters}")
 print(f"Silhouette score: {score:.4f}")
 
-# =============================================================================
 # 2. DIMENSIONALITY REDUCTION
-# =============================================================================
 print("\n2. DIMENSIONALITY REDUCTION")
 print("-" * 70)
 
@@ -59,9 +50,7 @@ print(f"Reduced to: {dr_result.n_components} components")
 print(f"Variance explained: {dr_result.metadata['total_variance_explained']:.3f}")
 print(f"Trustworthiness: {score:.4f}")
 
-# =============================================================================
 # 3. NETWORK ANALYSIS
-# =============================================================================
 print("\n3. NETWORK ANALYSIS")
 print("-" * 70)
 

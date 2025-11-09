@@ -89,26 +89,24 @@ class GirvanNewmanCommunityDetection(CommunityDetectionTechnique):
         return CommunityResult(communities, metadata=metadata)
 
 
-class LabelPropagationCommunityDetection(CommunityDetectionTechnique):
+class FastNewmanCommunityDetection(CommunityDetectionTechnique):
     
-    # Label Propagation method for community detection.
+    # Fast greedy modularity maximization (Clauset-Newman-Moore algorithm).
 
     
     def detect_communities(self, network, **hyperparams):
 
-        random_state = hyperparams.get('seed', 42)
-        
         graph = network.get_graph()
         
-        # Apply Label Propagation algorithm
-        communities_gen = community.label_propagation_communities(graph)
+        # Apply fast greedy modularity maximization
+        communities_gen = community.greedy_modularity_communities(graph)
         communities = [list(c) for c in communities_gen]
         
         # Calculate modularity
         modularity = community.modularity(graph, communities_gen)
         
         metadata = {
-            'algorithm': 'Label Propagation',
+            'algorithm': 'Fast Newman',
             'hyperparams': hyperparams,
             'modularity': modularity,
             'n_communities': len(communities)

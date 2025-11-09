@@ -1,19 +1,9 @@
-"""
-Project 1 Requirements Test Pipeline
-Tests 3 clustering techniques × 3 datasets × 3 quality measures = 27 runs
-"""
-
 import pandas as pd
 from sklearn.datasets import load_iris, load_wine, make_blobs
 import datamining_framework as dmf
 
 def create_test_datasets():
-    """
-    Create three different datasets for testing.
-    
-    Returns:
-        list: List of (dataset_name, Dataset object) tuples
-    """
+
     datasets = []
     
     # Dataset 1: Iris dataset
@@ -35,10 +25,7 @@ def create_test_datasets():
     return datasets
 
 def run_project1_pipeline():
-    """
-    Run the complete Project 1 pipeline with all required combinations.
-    3 clustering techniques × 3 datasets × 3 quality measures = 27 runs
-    """
+
     print("=" * 80)
     print("PROJECT 1 REQUIREMENTS TEST PIPELINE")
     print("=" * 80)
@@ -208,9 +195,9 @@ def test_individual_components():
     iris_data = pd.DataFrame(iris.data, columns=iris.feature_names)
     dataset = dmf.Dataset(iris_data)
     
-    print(f"   Dataset shape: {dataset.get_shape()}")
-    print(f"   Features: {dataset.get_features()[:3]}...")  # Show first 3 features
-    print(f"   Data points shape: {dataset.get_data_points().shape}")
+    print(f"Dataset shape: {dataset.get_shape()}")
+    print(f"Features: {dataset.get_features()[:3]}...")  # Show first 3 features
+    print(f"Data points shape: {dataset.get_data_points().shape}")
     
     # Test Distance Measures
     print("\n2. Testing Distance Measures:")
@@ -221,17 +208,17 @@ def test_individual_components():
     manhattan = dmf.ManhattanDistance()
     cosine = dmf.CosineDistance()
     
-    print(f"   Euclidean distance: {euclidean.calculate(point1, point2):.4f}")
-    print(f"   Manhattan distance: {manhattan.calculate(point1, point2):.4f}")
-    print(f"   Cosine distance: {cosine.calculate(point1, point2):.4f}")
-    
+    print(f"Euclidean distance: {euclidean.calculate(point1, point2):.4f}")
+    print(f"Manhattan distance: {manhattan.calculate(point1, point2):.4f}")
+    print(f"Cosine distance: {cosine.calculate(point1, point2):.4f}")
+
     # Test Clustering Techniques
     print("\n3. Testing Clustering Techniques:")
     kmeans = dmf.KMeansClustering()
     result = kmeans.cluster(dataset, n_clusters=3)
-    print(f"   K-Means found {result.n_clusters} clusters")
-    print(f"   Cluster labels shape: {result.get_labels().shape}")
-    print(f"   Cluster centers shape: {result.get_centers().shape if result.get_centers() is not None else 'None'}")
+    print(f"K-Means found {result.n_clusters} clusters")
+    print(f"Cluster labels shape: {result.get_labels().shape}")
+    print(f"Cluster centers shape: {result.get_centers().shape if result.get_centers() is not None else 'None'}")
     
     # Test Quality Measures
     print("\n4. Testing Quality Measures:")

@@ -21,8 +21,8 @@ def test_dr_techniques():
     dataset = dmf.load_dataset(iris.data)
     
     print(f"\n1. Original Dataset:")
-    print(f"   Shape: {dataset.get_shape()}")
-    print(f"   Dimensions: {dataset.get_shape()[1]}")
+    print(f"Shape: {dataset.get_shape()}")
+    print(f"Dimensions: {dataset.get_shape()[1]}")
     
     # Test DR techniques
     print(f"\n2. Testing Dimensionality Reduction Techniques:")
@@ -31,20 +31,20 @@ def test_dr_techniques():
     print(f"\n   a) PCA Reduction:")
     pca = dmf.PCAReduction()
     pca_result = pca.reduce(dataset, n_components=2)
-    print(f"      Reduced shape: {pca_result.get_reduced_data().shape}")
-    print(f"      Variance explained: {pca_result.metadata['total_variance_explained']:.3f}")
+    print(f"Reduced shape: {pca_result.get_reduced_data().shape}")
+    print(f"Variance explained: {pca_result.metadata['total_variance_explained']:.3f}")
     
     # t-SNE
     print(f"\n   b) t-SNE Reduction:")
     tsne = dmf.TSNEReduction()
     tsne_result = tsne.reduce(dataset, n_components=2, perplexity=30)
-    print(f"      Reduced shape: {tsne_result.get_reduced_data().shape}")
+    print(f"Reduced shape: {tsne_result.get_reduced_data().shape}")
     
     # MDS
     print(f"\n   c) MDS Reduction:")
     mds = dmf.MDSReduction()
     mds_result = mds.reduce(dataset, n_components=2)
-    print(f"      Reduced shape: {mds_result.get_reduced_data().shape}")
+    print(f"Reduced shape: {mds_result.get_reduced_data().shape}")
     
     # Test quality measures
     print(f"\n3. Testing DR Quality Measures:")
@@ -54,9 +54,9 @@ def test_dr_techniques():
     distance_corr = dmf.DistanceCorrelation()
     
     print(f"\n   PCA Quality:")
-    print(f"      Reconstruction Error: {reconstruction.evaluate(pca_result, dataset):.4f}")
-    print(f"      Trustworthiness: {trustworthiness.evaluate(pca_result, dataset):.4f}")
-    print(f"      Distance Correlation: {distance_corr.evaluate(pca_result, dataset):.4f}")
+    print(f"Reconstruction Error: {reconstruction.evaluate(pca_result, dataset):.4f}")
+    print(f"Trustworthiness: {trustworthiness.evaluate(pca_result, dataset):.4f}")
+    print(f"Distance Correlation: {distance_corr.evaluate(pca_result, dataset):.4f}")
     
     return dataset, pca_result, tsne_result
 
@@ -85,9 +85,9 @@ def test_dr_then_clustering():
     silhouette = dmf.SilhouetteScore()
     original_score = silhouette.evaluate(original_result, original_dataset)
     
-    print(f"   Time: {original_time:.4f}s")
-    print(f"   Clusters found: {original_result.n_clusters}")
-    print(f"   Silhouette score: {original_score:.4f}")
+    print(f"Time: {original_time:.4f}s")
+    print(f"Clusters found: {original_result.n_clusters}")
+    print(f"Silhouette score: {original_score:.4f}")
     
     # Test 2: DR then clustering
     print(f"\n2. Clustering on REDUCED data (PCA):")
@@ -97,8 +97,8 @@ def test_dr_then_clustering():
     reduced_result = pca.reduce(original_dataset, n_components=5)
     reduced_dataset = reduced_result.get_reduced_dataset()
     
-    print(f"   Reduced to {reduced_dataset.get_shape()[1]} dimensions")
-    print(f"   Variance retained: {reduced_result.metadata['total_variance_explained']:.3f}")
+    print(f"Reduced to {reduced_dataset.get_shape()[1]} dimensions")
+    print(f"Variance retained: {reduced_result.metadata['total_variance_explained']:.3f}")
     
     # Cluster reduced data
     start_time = time.time()
@@ -107,9 +107,9 @@ def test_dr_then_clustering():
     
     reduced_score = silhouette.evaluate(reduced_cluster_result, reduced_dataset)
     
-    print(f"   Time: {reduced_time:.4f}s")
-    print(f"   Clusters found: {reduced_cluster_result.n_clusters}")
-    print(f"   Silhouette score: {reduced_score:.4f}")
+    print(f"Time: {reduced_time:.4f}s")
+    print(f"Clusters found: {reduced_cluster_result.n_clusters}")
+    print(f"Silhouette score: {reduced_score:.4f}")
     
     # Comparison
     print(f"\n3. Comparison:")
@@ -243,7 +243,7 @@ def main():
     comprehensive_test()
     
     print("=" * 70)
-    print("✅ PROJECT 2 DEMONSTRATION COMPLETE!")
+    print("PROJECT 2 DEMONSTRATION COMPLETE!")
     print("=" * 70)
     print("\nKey Findings:")
     print("1. DR reduces dimensions while preserving data structure")

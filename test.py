@@ -12,7 +12,7 @@ def test_clustering():
     silhouette = dmf.SilhouetteScore()
     score = silhouette.evaluate(result, dataset)
     assert 0 <= score <= 1, "Clustering failed"
-    print("✓ Clustering")
+    print("Clustering, check")
 
 def test_dimensionality_reduction():
     """Test DR components."""
@@ -22,7 +22,7 @@ def test_dimensionality_reduction():
     trustworthiness = dmf.TrustworthinessScore()
     score = trustworthiness.evaluate(dr_result, dataset)
     assert 0 <= score <= 1, "DR failed"
-    print("✓ Dimensionality Reduction")
+    print("Dimensionality Reduction, check")
 
 def test_network_analysis():
     """Test network components."""
@@ -35,7 +35,7 @@ def test_network_analysis():
     edge_bet = dmf.EdgeBetweennessMeasure()
     eb_values = edge_bet.calculate(network)
     assert len(pr_values) == 4, "Network analysis failed"
-    print("✓ Network Analysis")
+    print("Network Analysis, check")
 
 def test_utilities():
     """Test utility functions."""
@@ -43,7 +43,7 @@ def test_utilities():
     normalized = dmf.normalize_dataset(dataset, method='standard')
     info = dmf.get_dataset_info(normalized)
     assert abs(info['mean'][0]) < 1e-10, "Normalization failed"
-    print("✓ Utilities")
+    print("Utilities, check")
 
 def main():
     print("Running framework health checks...\n")
@@ -51,7 +51,7 @@ def main():
     test_dimensionality_reduction()
     test_network_analysis()
     test_utilities()
-    print("\n✅ All health checks passed!")
+    print("\nAll health checks passed!")
     print(f"Framework version: {dmf.__version__}")
 
 if __name__ == "__main__":
